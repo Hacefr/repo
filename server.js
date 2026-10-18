@@ -22,18 +22,13 @@ const server = http.createServer((req, res) => {
         cleanUrl = "/index.html";
     }
     
-    let filePath = path.join(__dirname, cleanUrl);
+    // Tell the server to look inside the "game" folder for everything!
+    let filePath = path.join(__dirname, "game", cleanUrl);
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
-            res.writeHead(404, { "Content-Type": "text/plain" });
-            let dirContents = [];
-            try {
-                dirContents = fs.readdirSync(__dirname);
-            } catch(e) {
-                dirContents = [e.message];
-            }
-            res.end("DEBUG 404\nRequested: " + cleanUrl + "\nLooking at: " + filePath + "\nDir __dirname (" + __dirname + ") contains: " + JSON.stringify(dirContents, null, 2));
+            res.writeHead(404);
+            res.end("404 Not Found");
             return;
         }
         const ext = path.extname(filePath).toLowerCase();
