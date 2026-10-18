@@ -26,8 +26,14 @@ const server = http.createServer((req, res) => {
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
-            res.writeHead(404);
-            res.end("Not Found: " + cleanUrl);
+            res.writeHead(404, { "Content-Type": "text/plain" });
+            let dirContents = [];
+            try {
+                dirContents = fs.readdirSync(__dirname);
+            } catch(e) {
+                dirContents = [e.message];
+            }
+            res.end("DEBUG 404\nRequested: " + cleanUrl + "\nLooking at: " + filePath + "\nDir __dirname (" + __dirname + ") contains: " + JSON.stringify(dirContents, null, 2));
             return;
         }
         const ext = path.extname(filePath).toLowerCase();
