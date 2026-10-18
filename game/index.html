@@ -1,0 +1,1337 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="Custom.css" />
+		<meta http-equiv="X-Frame-Options" content="DENY" />
+		<title>Plants vs. Zombies - MODDED Official</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="https://pvzm.net/game/images/gameicon2.png" type="image/png" />
+		<link rel="manifest" href="/app.webmanifest" />
+		<script>
+			function warn(e) {
+				var confirmationMessage = "Are you sure you want to leave? Progress does not save and any progress will be lost.";
+				e.returnValue = confirmationMessage; // For most browsers
+				return confirmationMessage; // For some older browsers
+			}
+			window.addEventListener("beforeunload", warn);
+		</script>
+		<script src="js/pako.js" defer></script>
+		<!-- <script src="js/html2canvas.js" defer></script> -->
+		<script src="js/msgpack.min.js" defer></script>
+		<script src="js/WebComponents.js" defer></script>
+		<meta property="og:title" content="Play Plants vs Zombies Modded Online" />
+		<meta
+			property="og:description"
+			content="Play Plants vs Zombies Modded here for Free - A tower defense game created by PopCap Games and released on May 5, 2009. Click to Play now! Mod by ROBLNET13 on Github."
+		/>
+		<meta property="og:url" content="https://pvzm.net/game.html" />
+		<meta property="og:site_name" content="ROBLNET13" />
+		<meta property="og:image" content="https://pvzm.net/game/images/gamethumbnail5.png" />
+		<meta property="og:image:alt" content="Plants vs. Zombies - MODDED" />
+		<meta property="og:image:type" content="image/png" />
+		<meta name="twitter:card" content="summary_large_image" />
+
+		<meta name="twitter:title" content="Play Plants vs. Zombies Modded Online" />
+		<meta name="twitter:description" content="Play Plants vs. Zombie Modded here for Free - Mod by ROBlNET13 on Github." />
+		<meta name="twitter:image" content="https://pvzm.net/game/images/gamethumbnail5.png" />
+		<link rel="stylesheet" href="UI.css" />
+		<!-- REMOVE THIS SCRIPT AFTER REFACTOR IS DONE -->
+		<script>
+			function replaceSingleFontTag(fontElement) {
+				if (!fontElement || !fontElement.parentNode || fontElement.tagName !== "FONT") {
+					return;
+				}
+
+				const fontSizeMap = {
+					1: "x-small",
+					2: "small",
+					3: "medium",
+					4: "large",
+					5: "x-large",
+					6: "xx-large",
+					7: "xxx-large",
+				};
+
+				const spanElement = document.createElement("span");
+
+				spanElement.innerHTML = fontElement.innerHTML;
+
+				const color = fontElement.getAttribute("color");
+				if (color) {
+					spanElement.style.color = color;
+				}
+				const size = fontElement.getAttribute("size");
+				if (size && fontSizeMap[size]) {
+					spanElement.style.fontSize = fontSizeMap[size];
+				}
+				const face = fontElement.getAttribute("face");
+				if (face) {
+					spanElement.style.fontFamily = face;
+				}
+
+				console.log("Replacing <font> tag:", fontElement);
+				fontElement.replaceWith(spanElement);
+			}
+
+			function replaceExistingFontTags() {
+				const existingFonts = document.querySelectorAll("font");
+				let replacedCount = 0;
+				existingFonts.forEach((font) => {
+					if (font.parentNode) {
+						replaceSingleFontTag(font);
+						replacedCount++;
+					}
+				});
+				if (replacedCount > 0) {
+					console.log(`Replaced ${replacedCount} initially present <font> tag(s).`);
+				} else {
+					console.log("No initial <font> tags found to replace.");
+				}
+			}
+
+			const mutationCallback = (mutationsList, observer) => {
+				for (const mutation of mutationsList) {
+					if (mutation.type === "childList") {
+						mutation.addedNodes.forEach((node) => {
+							if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "FONT") {
+								replaceSingleFontTag(node);
+							} else if (node.nodeType === Node.ELEMENT_NODE && node.querySelectorAll) {
+								const nestedFonts = node.querySelectorAll("font");
+								nestedFonts.forEach(replaceSingleFontTag);
+							}
+						});
+					} else if (mutation.type === "attributes") {
+						if (mutation.target.nodeType === Node.ELEMENT_NODE && mutation.target.tagName === "FONT") {
+							console.log(`Attribute '${mutation.attributeName}' changed on:`, mutation.target);
+							replaceSingleFontTag(mutation.target);
+						}
+					}
+				}
+			};
+
+			const observer = new MutationObserver(mutationCallback);
+
+			const config = {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				attributeFilter: ["color", "size", "face"],
+			};
+
+			// Function to start the process
+			function initializeFontReplacement() {
+				replaceExistingFontTags();
+
+				observer.observe(document.body, config);
+
+				console.log("MutationObserver started, watching for new <font> tags and attribute changes.");
+			}
+
+			document.addEventListener("DOMContentLoaded", initializeFontReplacement);
+		</script>
+		<meta name="google-site-verification" content="fJLVF6HtXXMM2ag1_bMLijwLhOVj9XWFtUb8KlkdS0I" />
+	
+<style id="fullscreen-scaler-style">
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        background: #000 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    #dAll {
+        transform-origin: center center !important;
+        margin: 0 auto !important;
+    }
+</style>
+<script id="fullscreen-scaler-script">
+    function autoScalePvZ() {
+        const target = document.getElementById("dSurface") || document.getElementById("dAll");
+        if (target) {
+            const scale = Math.min(window.innerWidth / 900, window.innerHeight / 600);
+            target.style.transform = `scale(${scale})`;
+            target.style.transformOrigin = "center center";
+            target.style.margin = "0 auto";
+        }
+    }
+    window.addEventListener("resize", autoScalePvZ);
+    window.addEventListener("DOMContentLoaded", autoScalePvZ);
+    setInterval(autoScalePvZ, 200);
+</script>
+
+</head>
+
+	<body id="dBody" topmargin="0" leftmargin="0" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--   <div id="preloader"> -->
+		<!--	    <!-- <div id="status"></div> --> -->
+		<!--    </div> -->
+		<div id="dFlagMeter">
+			<div id="dFlagMeterTitle">
+				<div id="dFlagMeterTitleB"></div>
+				<div id="sFlagMeterTitleF"></div>
+			</div>
+			<div id="dFlagMeterContent">
+				<img id="imgFlagMeterEmpty" src="images/interface/FlagMeterEmpty.png" />
+				<img id="imgFlagMeterFull" src="images/interface/FlagMeterFull.png" />
+				<img class="flag" id="imgFlag1" src="images/interface/FlagMeterParts2.png" />
+				<img class="flag" id="imgFlag2" src="images/interface/FlagMeterParts2.png" />
+				<img class="flag" id="imgFlag3" src="images/interface/FlagMeterParts2.png" />
+				<img class="flag" id="imgFlag4" src="images/interface/FlagMeterParts2.png" />
+				<img id="imgGQJC" src="images/interface/FlagMeterLevelProgress.png" />
+				<img id="imgFlagHead" src="images/interface/FlagMeterParts1.png" />
+			</div>
+		</div>
+		<div id="dCoinBank">
+			<div id="dCoinBankText">$999,990</div>
+		</div>
+		<div id="dSurface" class="WindowFrame">
+			<div id="iSurfaceBackground">
+				<img src="images/interface/Surface.jpg" border="0" />
+				<div
+					style="position: absolute; left: 641px; top: 466px; width: 83px; height: 61px; cursor: url(images/interface/Pointer.cur), pointer"
+					onclick="ShowOptions()"
+				></div>
+				<div
+					style="position: absolute; left: 718px; top: 512px; width: 72px; height: 46px; cursor: url(images/interface/Pointer.cur), pointer"
+					onmouseenter="PreloadMenu('note')"
+					onclick="ShowHelp(this)"
+				></div>
+				<div
+					style="position: absolute; left: 800px; top: 495px; width: 79px; height: 53px; cursor: url(images/interface/Pointer.cur), pointer"
+					onclick="
+						SetNone($('dSurface'));
+						PlaySound2('tap');
+					"
+				></div>
+				<div style="position: absolute; width: 350px; height: 150px; left: 468px; top: 82px"></div>
+				<div
+					class="adventure0"
+					id="dAdventure"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="ShowCoopMenu()"
+				></div>
+				<div style="position: absolute; width: 318px; height: 136px; left: 476px; top: 208px"></div>
+				<div
+					class="mini"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="ShowMiniGame()"
+				></div>
+				<div style="position: absolute; width: 289px; height: 127px; left: 480px; top: 307px"></div>
+				<div
+					class="riddle"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmousemove="ViewGenericMouseover(`<span style='color:red'><b>FEATURED:</b></span> <b>ONLINE</b> I, Zombie Levels!`, event)"
+					onmouseout="SetHidden($('dTitle'))"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="ShowRiddleGame()"
+				></div>
+				<div class="Sunflower_trophy">
+					<script>
+						document.write(
+							'<img onclick="window.open(\'https://repo.pvzm.net\')" title="Producer" alt="3" src="images/interface/Sunflower_trophy32.png">'
+						);
+					</script>
+				</div>
+				<div
+					class="handbook"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="ViewHandBook()"
+				></div>
+				<div id="ZombieHand"></div>
+				<div id="dNameDiv0">
+					<div
+						id="dNameDiv1"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="ShowLoginDiv()"
+					></div>
+					<div id="dNameDiv2"></div>
+				</div>
+			</div>
+			<div id="dPause">
+				<table border="0" width="434" cellspacing="0" cellpadding="0" height="484">
+					<tr>
+						<td width="107" height="142" valign="bottom">
+							<img border="0" src="images/interface/dialog_topleft.png" width="423" height="401" />
+						</td>
+					</tr>
+				</table>
+				<div class="list">
+					<div class="hidden" onclick="SetNone($('dSurface'), $('dPause'))"></div>
+					<div id="dPauseAD"></div>
+				</div>
+				<div class="button" onclick="ResetGame($('dMenu0'))">Back To Game</div>
+			</div>
+			<div id="dZombieFail">
+				<table border="0" width="434" cellspacing="0" cellpadding="0" height="484">
+					<tr>
+						<td width="107" height="142" valign="bottom">
+							<img border="0" src="images/interface/dialog_topleft.png" width="423" height="401" />
+						</td>
+					</tr>
+				</table>
+				<div class="list">
+					<div class="hidden" onclick="SetNone($('dSurface'), $('dZombieFail'))"></div>
+					<div id="dZombieFailAD"></div>
+				</div>
+				<div class="button" onclick="ResetGame($('dMenu0'))">Back To Game</div>
+			</div>
+			<div id="dSurfaceBack">
+
+    <!-- ================= 3-ICON COMMUNITY DOCK ================= -->
+    <div id="pvp-community-dock" style="position: absolute; bottom: 18px; left: 18px; display: flex; gap: 14px; z-index: 100;">
+        <!-- 1. Snow Pea -> Full Singleplayer Port -->
+        <a href="https://pvzm.net" target="_blank" title="Play Full Singleplayer Port (PVZM.net)">
+            <img src="img/64x64.png" width="56" height="56" style="border-radius: 12px; border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.7); transition: transform 0.15s; cursor: pointer;" onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">
+        </a>
+        <!-- 2. GitHub -> Original Open Source Repository -->
+        <a href="https://github.com/Plants-vs-Zombies-MODDED/game" target="_blank" title="Original Open Source Port on GitHub">
+            <img src="img/icon-github.png" onerror="this.src='img/64x64.png'" width="56" height="56" style="border-radius: 12px; border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.7); transition: transform 0.15s; cursor: pointer;" onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">
+        </a>
+        <!-- 3. PopCap -> Official PvZ Franchise -->
+        <a href="https://www.ea.com/games/plants-vs-zombies" target="_blank" title="Official PopCap / EA Franchise">
+            <img src="img/icon-popcap.png" onerror="this.src='images/interface/Dave.gif'" width="56" height="56" style="border-radius: 12px; border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.7); transition: transform 0.15s; cursor: pointer;" onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">
+        </a>
+    </div>
+
+				<div id="dHelp" onclick="HiddenHelp()"></div>
+				<!-- ================= AUTHENTIC CO-OP MODAL ================= -->
+<div id="dCoopMenuBack" style="position: absolute; text-align: center; left: 244px; top: 60px; width: 423px; height: 498px; display: none; background: url(images/interface/OptionsMenuback32.png) no-repeat; z-index: 250;">
+    <div style="margin-top: 35px; font-family: Tahoma, sans-serif; font-size: 24px; color: #ffb703; text-shadow: 2px 2px #000; font-weight: bold;">
+        CO-OP SURVIVAL
+    </div>
+    <div style="font-size: 13px; color: #ccc; margin-bottom: 25px;">Defend the lawn together</div>
+
+    <div id="coop-action-panel">
+        <div class="BigLevel button" onclick="CoopHost()" style="margin: 15px auto; width: 220px;">
+            Host Match <img src="images/interface/icon_plant.png" alt="🌿" class="settingsButtonIcon" />
+        </div>
+        
+        <div style="margin: 20px 0 10px 0; color: #ddd; font-size: 14px; font-weight: bold;">— OR ENTER ROOM CODE —</div>
+        
+        <input type="text" id="coop-room-input" maxlength="4" placeholder="CODE" style="width: 140px; font-size: 24px; text-align: center; letter-spacing: 4px; text-transform: uppercase; border-radius: 6px; border: 2px solid #555; background: #222; color: #06d6a0; font-weight: bold; margin-bottom: 10px;" />
+        
+        <div class="BigLevel button" onclick="CoopJoin()" style="margin: 10px auto; width: 220px;">
+            Join Match <img src="images/interface/icon_sword.png" alt="⚔️" class="settingsButtonIcon" />
+        </div>
+    </div>
+
+    <div id="coop-waiting-panel" style="display: none; margin-top: 40px;">
+        <div style="font-size: 16px; color: #fff; font-weight: bold;">SHARE THIS ROOM CODE:</div>
+        <div id="coop-display-code" style="font-size: 46px; font-weight: bold; color: #06d6a0; letter-spacing: 6px; margin: 15px 0; text-shadow: 2px 2px #000;">----</div>
+        <div id="coop-status-text" style="font-size: 14px; color: #ffb703;">Waiting for Player 2 to connect...</div>
+    </div>
+
+    <div class="OptionsMenuButton" style="position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);" onmousedown="OptionsMenuDown(this, $('sCoopMenu'))" onmouseup="OptionsMenuUP(this, $('sCoopMenu')); HiddenCoopMenu();">
+        <span id="sCoopMenu" class="OptionsMenuButtonSpan">Back</span>
+    </div>
+</div>
+
+<script>
+    window.pvpSocket = null;
+    window.pvpPlayerNum = 1;
+    window.pvpRoomCode = "";
+
+    function initCoopSocket() {
+        if (!window.pvpSocket || window.pvpSocket.readyState !== 1) {
+            const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+            window.pvpSocket = new WebSocket(protocol + window.location.host);
+
+            window.pvpSocket.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+
+                if (msg.type === "ROOM_CREATED") {
+                    window.pvpRoomCode = msg.code;
+                    window.pvpPlayerNum = 1;
+                    $("coop-action-panel").style.display = "none";
+                    $("coop-waiting-panel").style.display = "block";
+                    $("coop-display-code").innerText = msg.code;
+                    $("coop-status-text").innerText = "Waiting for Player 2... (1/2 Connected)";
+                } 
+                else if (msg.type === "ROOM_JOINED") {
+                    window.pvpRoomCode = msg.code;
+                    window.pvpPlayerNum = 2;
+                    $("coop-action-panel").style.display = "none";
+                    $("coop-waiting-panel").style.display = "block";
+                    $("coop-display-code").innerText = msg.code;
+                    $("coop-status-text").innerText = "Connected! Starting match... (2/2)";
+                    
+                    // Launch directly into level with ZERO page reload!
+                    setTimeout(() => {
+                        HiddenCoopMenu();
+                        SelectModal("coop_endless");
+                    }, 1200);
+                } 
+                else if (msg.type === "OPPONENT_READY") {
+                    // Host also launches with ZERO page reload!
+                    $("coop-status-text").innerText = "Player 2 Connected! (2/2) Starting...";
+                    setTimeout(() => {
+                        HiddenCoopMenu();
+                        SelectModal("coop_endless");
+                    }, 1200);
+                } 
+                else if (msg.type === "ERROR") {
+                    alert(msg.message);
+                }
+            };
+        }
+    }
+
+    function ShowCoopMenu() {
+        PlaySound2("gravebutton");
+        SetBlock($("dCoopMenuBack"));
+        initCoopSocket();
+    }
+
+    function HiddenCoopMenu() {
+        PlaySound2("tap");
+        SetNone($("dCoopMenuBack"));
+    }
+
+    function sendWhenOpen(socket, data) {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify(data));
+        } else {
+            socket.addEventListener("open", () => {
+                socket.send(JSON.stringify(data));
+            }, { once: true });
+        }
+    }
+
+    function CoopHost() {
+        PlaySound2("gravebutton");
+        initCoopSocket();
+        sendWhenOpen(window.pvpSocket, { type: "CREATE_ROOM" });
+    }
+
+    function CoopJoin() {
+        PlaySound2("gravebutton");
+        const code = $("coop-room-input").value.trim().toUpperCase();
+        if (code.length === 4) {
+            initCoopSocket();
+            sendWhenOpen(window.pvpSocket, { type: "JOIN_ROOM", code });
+        } else {
+            alert("Please enter a 4-letter room code!");
+        }
+    }
+</script>
+
+				<div id="dOptionsMenuback">
+					<div id="dOptionsMenu">
+						<div class="OMd0">
+							<div class="OMd1">
+								<div>
+									<input type="checkbox" id="cAutoSun" value="1" onchange="CheckAutoSun(this)" />
+									<label for="cAutoSun" id="lAutoSun">
+										Auto Collect<img
+											src="images/interface/icon_sun.png"
+											alt="Sun"
+											style="width: 1.35em; vertical-align: middle; margin-left: 5px"
+										/>
+									</label>
+								</div>
+								<div>
+									<input type="checkbox" id="cSilence" value="1" onchange="PlaySound2('buttonclick')" />
+									<label for="cSilence" id="lSilence">
+										Mute Audio<img
+											src="images/interface/icon_musicnote.png"
+											alt="🔇"
+											style="width: 1.35em; vertical-align: middle; margin-left: 18.5px"
+										/>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="BigLevel button" onclick="ShowLevel()">
+							Levels <img src="images/interface/icon_sword.png" alt="🎮" class="settingsButtonIcon" />
+						</div>
+
+						<div class="BigLevel button" onclick="ShowSpeed()">
+							Speed <img src="images/interface/icon_speed.png" alt="⌛" class="settingsButtonIcon" />
+						</div>
+
+						<div class="BigLevel button almanacButton" onclick="ViewHandBook()">
+							Almanac <img src="images/interface/icon_plant.png" alt="📖" class="settingsButtonIcon" />
+						</div>
+
+						<div class="trophy" onclick="SelectModal('achievements')" style="display: none"></div>
+
+						<div class="BigLevel button" onclick="SelectModal(oS.Lvl)">
+							Restart <img src="images/interface/icon_exclamation.png" alt="🔁" class="settingsButtonIcon" />
+						</div>
+
+						<div
+							class="BigLevel button"
+							id="pauseHome"
+							onclick="
+								let oldLv = oS.Lvl;
+								SelectModal(0);
+								SetBlock($('dSurface'), $('iSurfaceBackground'));
+								ShowNameDiv();
+								oS.Lvl = oldLv;
+							"
+						>
+							Credits
+						</div>
+
+						<div
+							class="OptionsMenuButton"
+							style="margin-top: 11px"
+							onmousedown="OptionsMenuDown(this, $('sOptionsMenu'))"
+							onmouseup="
+								OptionsMenuUP(this, $('sOptionsMenu'));
+								HiddenOptions();
+								CheckAutoSun($('cAutoSun'));
+								CheckSilence($('cSilence'));
+							"
+						>
+							<span id="sOptionsMenu" class="OptionsMenuButtonSpan">Back To Game</span>
+						</div>
+					</div>
+					<script>
+						var ArLvl = {
+								1: "1",
+								2: "2",
+								3: "3",
+								4: "4",
+								5: "5",
+								6: "6",
+								7: "7",
+								8: "8",
+								9: "9",
+								10: "10",
+							},
+							LvlList = function (BLvl, SLvl1, SLvl2) {
+								var s = "",
+									startlvl = BLvl * 10;
+								do {
+									s += '<span class="lvl" onclick="SelectModal(' + (startlvl + SLvl1) + ')">' + ArLvl[SLvl1] + "</span>";
+								} while (SLvl1++ < SLvl2);
+								document.write(s);
+							};
+					</script>
+				</div>
+				<div id="dAdvSmallContainer" class="Challenge_Background TitleSmallContainer">
+					<div id="dAdvSmallTitle">Level Selection</div>
+					<div class="list">
+						<div class="title day-text">Day<style></style></div>
+						<div class="icon">
+							<img
+								class="img1"
+								style="clip: rect(0, 61px, auto, 0); left: 16px"
+								border="0"
+								src="images/interface/Almanac_GroundDay.jpg"
+								width="61"
+								height="61"
+							/>
+							<img class="img2" border="0" src="images/interface/Almanac_ZombieWindow2.png" width="76" height="76" />
+						</div>
+						<div class="lvl2">
+							<script>
+								LvlList(0, 1, 10);
+							</script>
+						</div>
+					</div>
+					<div class="list">
+						<div class="title night-text">Night</div>
+						<div class="icon">
+							<img
+								class="img1"
+								style="clip: rect(0, 61px, auto, 0); left: 16px"
+								border="0"
+								src="images/interface/Almanac_GroundNight.jpg"
+								width="61"
+								height="61"
+							/>
+							<img class="img2" border="0" src="images/interface/Almanac_ZombieWindow2.png" width="76" height="76" />
+						</div>
+						<div class="lvl2">
+							<script>
+								LvlList(1, 1, 10);
+							</script>
+						</div>
+					</div>
+					<div class="list">
+						<div class="title pool-text">Pool</div>
+						<div class="icon">
+							<img
+								class="img1"
+								style="clip: rect(0, 61px, auto, 0); left: 16px"
+								border="0"
+								src="images/interface/Almanac_GroundPool.jpg"
+								width="61"
+								height="61"
+							/>
+							<img class="img2" border="0" src="images/interface/Almanac_ZombieWindow2.png" width="76" height="76" />
+						</div>
+						<div class="lvl2">
+							<script>
+								LvlList(2, 1, 10);
+							</script>
+						</div>
+					</div>
+					<div class="list">
+						<div class="title dragonpalace-text">Dragon Palace</div>
+						<div class="icon">
+							<img
+								class="img1"
+								style="clip: rect(0, 61px, auto, 0); left: 16px"
+								border="0"
+								src="images/interface/Almanac_GroundUndersea.jpg"
+								width="61"
+								height="61"
+							/>
+							<img class="img2" border="0" src="images/interface/Almanac_ZombieWindow2.png" width="76" height="76" />
+						</div>
+						<div class="lvl2">
+							<script>
+								LvlList(3, 1, 10);
+							</script>
+						</div>
+					</div>
+					<div class="list">
+						<div class="title watertown-text">Water Town</div>
+						<div class="icon">
+							<img
+								class="img1"
+								style="clip: rect(0, 61px, auto, 0); left: 16px"
+								border="0"
+								src="images/interface/jiaxing.png"
+								width="61"
+								height="61"
+							/>
+							<img class="img2" border="0" src="images/interface/Almanac_ZombieWindow2.png" width="76" height="76" />
+						</div>
+						<div class="lvl2">
+							<script>
+								LvlList(4, 1, 10);
+							</script>
+						</div>
+					</div>
+					<div
+						class="button"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="HiddenLevel()"
+					>
+						CLOSE
+					</div>
+				</div>
+				<div id="dMiniSmallContainer" class="Challenge_Background TitleSmallContainer">
+					<div id="dMiniSmallTitle">China Pavilion - Dave's China Trip</div>
+					<div id="dMini0">
+						<table cellspacing="10" width="100%" style="color: #2a2a5a">
+							<script>
+								(function () {
+									var ar = [
+											"100",
+											"New to China",
+											"wall0.png",
+											"101",
+											"Assassination",
+											"wall1.png",
+											"102",
+											"Night falls",
+											"wall2.png",
+											"103",
+											"Stand out",
+											"wall3.png",
+											"104",
+											"Ancient village",
+											"zhi.png",
+											"105",
+											"Water sports",
+											"zhi1.png",
+											"106",
+											"Grave village",
+											"bai.png",
+											"107",
+											"Ghost night",
+											"bai1.png",
+											"108",
+											"Foot of volcano",
+											"huo.png",
+											"109",
+											"Fueling the fire",
+											"huo1.png",
+											"110",
+											"Devils Palace",
+											"wang.png",
+											"111",
+											"Corpse siege",
+											"wang0.png",
+											"112",
+											"Decisive battle",
+											"wang1.png",
+											"FB",
+											"Battle of the Pass",
+											"FB.png",
+											"WJY",
+											"Meet and Greet",
+											"WJY.png",
+										],
+										v,
+										i = 0,
+										n,
+										l = ar.length,
+										s = "";
+									for (n = 0; n < l; n += 3) {
+										i % 5 == 0 && (s += "<tr>");
+										s +=
+											'<td height="139" valign="top" onclick="SelectModal(\'' +
+											ar[n] +
+											'\')"><div><img src="images/interface/' +
+											ar[n + 2] +
+											'"></div><div class="list">' +
+											ar[n + 1] +
+											"</div></td>";
+										(i + 1) % 5 == 0 ? ((s += "</tr>"), (i = 0)) : ++i;
+									}
+									if (i != 0) {
+										while (--i) s += "<td>　</td>";
+										s += "</tr>";
+									}
+									document.write(s);
+								})();
+							</script>
+						</table>
+						<div
+							class="button"
+							onmouseover="this.style.backgroundPosition = 'bottom'"
+							onmouseout="this.style.backgroundPosition = 'top'"
+							onclick="HiddenMiniGame()"
+						>
+							CLOSE
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="dRiddleSmallContainer" class="Challenge_Background TitleSmallContainer">
+				<div id="dMiniSmallTitle">Mini-Games</div>
+				<div id="dMini0" style="overflow-y: auto; height: 476px; width: 890px; margin-top: 2px">
+					<table cellspacing="10" width="100%" style="color: #2a2a5a">
+						<script>
+							(function () {
+								var ar = [
+										"WallNutBowling1",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Wall-nut Bowling",
+										"WallNutBowling.png",
+										"WallNutBowling",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Wall-nut Bowling 2",
+										"WallNutBowling.png",
+										"Stargazing",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Stargazing",
+										"Stargazing.png",
+										"HypnoHysteria",
+										"Hypno Hysteria",
+										"HypnoHysteria.png",
+										"ZombieGames",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Zombie Games",
+										"woxinfeixiang.png",
+										"yicixingxiaofei",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Blast Blitz",
+										"yicixingxiaofei.gif",
+										"CardRain",
+										"<hr style='visibility: hidden; margin-top: -4px;'>It's Raining Seeds",
+										"RainingSeeds.png",
+										"unsodded",
+										"<hr style='visibility: hidden; margin-top: -4px;'>Unsodded",
+										"Unsodded.png",
+										"BoxedSurprise",
+										"<hr style='visibility: hidden; margin-top: -4.5px;'>Boxed Surprise",
+										"BoxedSurprise.png",
+										"TripleThreatDefense",
+										"<hr style='visibility: hidden; margin-top: -11px;'>Triple Threat<br>Defense",
+										"TripleThreatDefense.png",
+										"SunPower",
+										"<hr style='visibility: hidden; margin-top: -8px;'>Sun Power",
+										"SunPower.png",
+										"AirRaid",
+										"<hr style='visibility: hidden; margin-top: -5px;'>Air Raid",
+										"AirRaid.png",
+										"izombiemenu",
+										"<hr style='visibility: hidden; margin-top: -5px;'>I, Zombie",
+										"izombie.png",
+										"btlzombie",
+										"<hr style='visibility: hidden; margin-top: -12px;'>Big Trouble<br>Little Zombie",
+										"btlzombie.png",
+										"vasebreakermenu",
+										"<hr style='visibility: hidden; margin-top: -5px;'>Vasebreaker",
+										"Vasebreaker.png",
+										"150",
+										"<hr style='visibility: hidden; margin-top: -5px;'>Evergreen Tower",
+										"evergreentower.png",
+									],
+									v,
+									i = 0,
+									n,
+									l = ar.length,
+									s = "";
+								for (n = 0; n < l; n += 3) {
+									i % 5 == 0 && (s += "<tr>");
+									if (ar[n] == "izombiemenu") {
+										s +=
+											'<td height="139" valign="top" onmousemove="ViewGenericMouseover(`<span style=&quot;color:red&quot;><b>FEATURED:</b></span> <b>ONLINE</b> I, Zombie Levels!`,event)" onmouseout="SetHidden($(\'dTitle\'))" onclick="SelectModal(\'' +
+											ar[n] +
+											'\')"><div><img src="images/interface/' +
+											ar[n + 2] +
+											'"></div><div class="list">' +
+											ar[n + 1] +
+											"</div></td>";
+										(i + 1) % 5 == 0 ? ((s += "</tr>"), (i = 0)) : ++i;
+									} else {
+										s +=
+											'<td height="139" valign="top" onclick="SelectModal(\'' +
+											ar[n] +
+											'\')"><div><img src="images/interface/' +
+											ar[n + 2] +
+											'"></div><div class="list">' +
+											ar[n + 1] +
+											"</div></td>";
+										(i + 1) % 5 == 0 ? ((s += "</tr>"), (i = 0)) : ++i;
+									}
+								}
+								if (i != 0) {
+									while (--i) s += "<td>　</td>";
+									s += "</tr>";
+								}
+								document.write(s);
+							})();
+						</script>
+					</table>
+					<div
+						class="button"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="HiddenMiniGame()"
+					>
+						CLOSE
+					</div>
+				</div>
+				<!--单机界面已作废，无特殊请勿乱动-->
+				<div id="dRiddle0">
+					<div
+						class="button"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="ReturnRiddleInx()"
+					>
+						Puzzle Mode Index
+					</div>
+				</div>
+				<!--对战界面已作废，无特殊请勿乱动-->
+				<div id="dRiddle1">
+					<div style="position: relative; width: 94%; font-size: 12px; margin-top: 10px; margin-left: auto; margin-right: auto; color: #000">
+						<button class="jhp" style="height: 23px" onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(0)">all games</button>
+						<button class="jhp" style="height: 23px" onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(1)">I created</button>
+						<button class="jhp" style="height: 23px" onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(2)">i played</button
+						>&nbsp;&nbsp;&nbsp; <input type="text" id="tRiddleID" size="1" /><button
+							class="jhp"
+							style="height: 23px"
+							onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(3, $('tRiddleID').value)"
+						>
+							Serial number query</button
+						>&nbsp;&nbsp;&nbsp; <input type="text" id="tRiddleUserName" size="3" /><button
+							class="jhp"
+							style="height: 23px"
+							onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(4, $('tRiddleUserName').value)"
+						>
+							Created by query</button
+						>&nbsp;&nbsp;&nbsp; <input type="text" id="tRiddleTitle" size="3" /><button
+							class="jhp"
+							style="height: 23px"
+							onclick="window.frames['fRiddleAlreadyCreateGame'].SearchLvl(5, $('tRiddleTitle').value)"
+						>
+							Title query
+						</button>
+						<div style="border: 1px solid #000; height: 440px; width: 100%; background: #fafafa">
+							<iframe
+								name="fRiddleAlreadyCreateGame"
+								id="fRiddleAlreadyCreateGame"
+								marginwidth="1"
+								marginheight="1"
+								height="100%"
+								width="100%"
+								scrolling="no"
+								border="0"
+								frameborder="0"
+							></iframe>
+						</div>
+					</div>
+					<div
+						class="button"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="ReturnRiddleInx()"
+					>
+						Title Rebel Mode Index
+					</div>
+					<div
+						class="button"
+						style="left: 220px"
+						onmouseover="this.style.backgroundPosition = 'bottom'"
+						onmouseout="this.style.backgroundPosition = 'top'"
+						onclick="
+							if (
+								$User.Visitor.UserName != '游客' ||
+								confirm(
+									'Visitors can only experience the creation function and cannot be archived\nPlease use registered users to save your creativity!'
+								)
+							)
+								SelectModal('ImZombieCreateGame');
+						"
+					>
+						Create a new level
+					</div>
+				</div>
+				<div
+					id="dRiddleClose"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="HiddenRiddleGame()"
+				>
+					CLOSE
+				</div>
+			</div>
+		</div>
+		<div class="WindowFrame" id="dAll">
+			<div id="tGround"></div>
+			<div id="dCardList"></div>
+			<div id="dZombie"></div>
+			<div
+				id="bShowHandBook"
+				onmouseover="this.style.backgroundPosition = 'bottom'"
+				onmouseout="this.style.backgroundPosition = 'top'"
+				onclick="ViewHandBook()"
+			>
+				Almanac&nbsp;
+			</div>
+			<div id="dSelectCard">
+				<div class="title"></div>
+				<div id="dPCard"></div>
+				<div class="bTitle">
+					<input class="button" onclick="ResetSelectCard()" type="button" value="Clear" name="btnReset" id="btnReset" style="color: #fc6" />
+					<input
+						class="button"
+						onclick="oS.ScrollBack(LetsGO)"
+						type="button"
+						value="Start"
+						disabled="disabled"
+						name="btnOK"
+						id="btnOK"
+						style="color: #888"
+					/>
+				</div>
+			</div>
+			<div id="dTop">
+				<div id="dSunNum">
+					<span id="sSunNum"></span>
+				</div>
+				<div id="tdShovel">
+					<img id="imgShovel" src="images/interface/Shovel/0.gif" onmousedown="ChoseShovel(event)" />
+				</div>
+			</div>
+			<div id="dPZ"></div>
+		</div>
+		<div id="dMenu">
+			<div
+				id="dMenu0"
+				class="Menu"
+				onclick="
+					ClickMenu();
+					ShowSpeed();
+				"
+			>
+				Speed
+			</div>
+			<div id="dMenu1" class="Menu" onclick="ClickMenu()">Menu</div>
+		</div>
+		<div id="dHandBook" class="WindowFrame">
+			<div class="title">Suburban Almanac - Index</div>
+			<div class="content">
+				<div style="padding-top: 134px">
+					<img border="0" src="images/Plants/SunFlower/SunFlower1.gif" width="73" height="74" style="position: relative; left: 10px" /><br />
+					<div class="button" type="button" value="View Plants" name="btnViewPlant" id="btnViewPlant" onclick="InitHandBookPCard()">View Plants</div>
+				</div>
+				<div style="left: 50%; padding-top: 95px">
+					<img border="0" src="images/Zombies/Zombie/1.gif" width="149" height="130" style="position: relative; right: 40px; top: 6px" /><br />
+					<div class="button" value="View Zombies" name="btnViewZombie" id="btnViewZombie" onclick="InitHandBookZCard()">View Zombies</div>
+				</div>
+			</div>
+			<div
+				class="close"
+				onmouseover="this.style.backgroundPosition = 'bottom'"
+				onmouseout="this.style.backgroundPosition = 'top'"
+				onclick="CloseHandBook()"
+			>
+				CLOSE
+			</div>
+		</div>
+		<div id="dHandBookPZ" class="Almanac_PlantBack WindowFrame">
+			<div id="dHandBookP">
+				<div class="title">Suburban Almanac - Plants</div>
+				<div id="dHandBookPCard"></div>
+				<div id="pPlantBack"></div>
+				<div id="pPlantCard"></div>
+				<div class="list">
+					<div id="pHandBookPlant"></div>
+					<div id="dHandBookPlantName"></div>
+					<div id="dProducePlant"></div>
+					<div class="cost_cool">
+						<span class="cost">Cost: </span><span id="spSunNum"></span><span class="cool">Recharge: </span><span id="spCoolTime"></span>
+					</div>
+				</div>
+			</div>
+			<div id="dHandBookZ">
+				<div class="title">Suburban Almanac - Zombies</div>
+				<div id="dHandBookZCard"></div>
+				<div id="pZombieBack"></div>
+				<div id="pZombieCard"></div>
+				<div class="list">
+					<div id="pHandBookZombie"></div>
+					<div id="dHandBookZombieName"></div>
+					<div id="dProduceZombie"></div>
+				</div>
+			</div>
+			<div class="dButton">
+				<div
+					class="button1"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="ReturnHandBookInx()"
+				>
+					ALMANAC INDEX
+				</div>
+				<div
+					class="button2"
+					onmouseover="this.style.backgroundPosition = 'bottom'"
+					onmouseout="this.style.backgroundPosition = 'top'"
+					onclick="CloseHandBook()"
+				>
+					CLOSE
+				</div>
+			</div>
+		</div>
+		<div id="dNewPlant" class="WindowFrame">
+			<div id="dNewPlantTitle">You got a new plant!</div>
+			<div class="card">
+				<img id="iNewPlantCard" border="0" />
+			</div>
+			<div class="card">
+				<img id="iNewTrophy" border="0" />
+			</div>
+			<br />
+			<div id="dNewPlantName"></div>
+			<br /><br /><br />
+			<div id="dNewPlantTooltip"></div>
+			<br /><br /><br /><br /><br /><br />
+			<div
+				id="bMainMenu"
+				onmouseover="this.style.backgroundPosition = 'bottom'"
+				onmouseout="this.style.backgroundPosition = 'top'"
+				onclick="
+					oldLv = oS.Lvl;
+					SelectModal(0);
+					SetBlock($('dSurface'), $('iSurfaceBackground'));
+					oS.Lvl = oldLv;
+					document.querySelector('#btnNextLevel').click();
+				"
+				style="visibility: none; background-position: center top"
+			>
+				MAIN MENU
+			</div>
+			<input type="button" value="NEXT LEVEL!" name="btnNextLevel" id="btnNextLevel" />
+		</div>
+		<div id="dProcess">
+			<input class="button" type="button" value="Close" onclick="SetHidden($('dProcess'))" style="margin-top: 410px" />
+			<script>
+				document.write(
+					'<a style="margin-left:50px;cursor:url(images/interface/Pointer.cur),pointer;color:#FF0;font-size:15px;text-decoration:none;font-weight:bold;display:none" target="_blank" ></a>'
+				);
+			</script>
+		</div>
+		<div class="WindowFrame" id="dSpeedContainerContainer">
+			<div id="dSpeedContainer">
+				<div class="speed-header">
+					<h3>Game Speed</h3>
+					<button class="speed-close" onclick="HiddenSpeed()" aria-label="Close">×</button>
+				</div>
+				<div class="speed-selector">
+					<label>Select Speed</label>
+					<div class="speed-buttons">
+						<button onclick="CSpeed(1, 20, 0.5)" class="speed-btn">0.5×</button>
+						<button onclick="CSpeed(1, 10, 1)" class="speed-btn">1×</button>
+						<button onclick="CSpeed(2, 10, 2)" class="speed-btn">2×</button>
+						<button onclick="CSpeed(5, 10, 5)" class="speed-btn">5×</button>
+						<button onclick="CSpeed(5, 5, 10)" class="speed-btn">10×</button>
+					</div>
+				</div>
+				<div class="speed-current">Current Speed: <strong id="dDisplaySpeed">1</strong>×</div>
+				<div class="speed-info">
+					<p>Speed range: <strong>0.5× – 10×</strong></p>
+					<p>Performance depends on your browser and device. Higher speeds may cause visual lag on some systems.</p>
+					<p><em>Recommended browsers: Chrome, Firefox</em></p>
+				</div>
+				<div class="speed-actions">
+					<button onclick="HiddenSpeed()">Close</button>
+					<button onclick="CSpeed(1, 10, 1)">Reset to 1×</button>
+				</div>
+			</div>
+		</div>
+		<div
+			id="debugMenu"
+			class="hidden WindowFrame"
+			style="
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 300px;
+				z-index: 10000;
+				overflow: visible;
+				flex-direction: column;
+				gap: 0px 4px;
+				height: 32px;
+			"
+		>
+			<div
+				id="debugMenuHeader"
+				style="background: #333; color: #fff; padding: 4px; cursor: move; font-size: 12px; font-weight: medium; display: flex; gap: 4px"
+			>
+				<img style="width: 16px; padding-right: 2px" src="images/interface/clipboard.png" />
+				<div>Debug Menu</div>
+			</div>
+		</div>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const debugMenu = document.getElementById("debugMenu");
+				const header = document.getElementById("debugMenuHeader");
+
+				let isDragging = false;
+				let startX, startY;
+
+				header.addEventListener("mousedown", (e) => {
+					isDragging = true;
+
+					startX = e.clientX - debugMenu.offsetLeft;
+					startY = e.clientY - debugMenu.offsetTop;
+
+					e.preventDefault();
+				});
+
+				document.addEventListener("mousemove", (e) => {
+					if (!isDragging) return;
+
+					let newX = e.clientX - startX;
+					let newY = e.clientY - startY;
+
+					debugMenu.style.left = `${newX}`;
+					debugMenu.style.top = `${newY}`;
+
+					document.addEventListener("mouseup", () => {
+						isDragging = false;
+					});
+				});
+			});
+		</script>
+		<!-- izombie lvl saving stuffs -->
+		<!--本网页来自江南游戏 || pvzweb.usa3v.net-->
+		<button id="changelog" style="z-index: 99999; position: fixed; bottom: 8px; left: 50%; margin-left: -400px; display: none">Changelog</button>
+		<svg style="width: 0; height: 0">
+			<defs>
+				<filter id="cardboard" x="-50%" y="-50%" width="200%" height="200%">
+					<feColorMatrix
+						type="matrix"
+						values="
+							1.25  0 0 0 0
+							0     0.788 0 0 0
+							0     0 0.627 0 0
+							0     0 0     1 0
+						"
+						result="coloredImage"
+					></feColorMatrix>
+
+					<feComponentTransfer in="coloredImage" result="brightenedImage">
+						<feFuncR type="linear" slope="0.9"></feFuncR>
+						<feFuncG type="linear" slope="0.9"></feFuncG>
+						<feFuncB type="linear" slope="0.9"></feFuncB>
+						<!-- Keep alpha unchanged -->
+						<feFuncA type="identity"></feFuncA>
+					</feComponentTransfer>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+           					0.9801 0.0199 0.0000 0 0
+           					0.0000 0.9801 0.0199 0 0
+           					0.0000 0.0000 0.9801 0 0
+           					0      0      0      1 0
+        				"
+						in="brightenedImage"
+						result="sepiaEffect"
+					></feColorMatrix>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+               				0.393  0.769  0.189  0  0
+               				0.349  0.686  0.168  0  0
+               				0.272  0.534  0.131  0  0
+               				0      0      0      1  0
+           				"
+						in="SourceGraphic"
+						result="fullSepia"
+					/>
+					<feBlend in="brightenedImage" in2="fullSepia" mode="normal" result="sepiaBlended" style="mix-blend-mode: lighten"></feBlend>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+            				1.25  0 0 0 0
+            				0     0.788 0 0 0
+            				0     0 0.627 0 0
+            				0     0 0     1 0
+        				"
+						in="SourceGraphic"
+						result="coloredImage"
+					></feColorMatrix>
+					<feComponentTransfer in="coloredImage" result="processedImage">
+						<feFuncR type="linear" slope="0.9"></feFuncR>
+						<feFuncG type="linear" slope="0.9"></feFuncG>
+						<feFuncB type="linear" slope="0.9"></feFuncB>
+						<feFuncA type="identity"></feFuncA>
+					</feComponentTransfer>
+
+					<feGaussianBlur in="SourceAlpha" stdDeviation="0" result="blur1" />
+					<feOffset dx="-2" dy="-2" in="blur1" result="offsetBlur1" />
+					<feFlood flood-color="rgb(171, 135, 107)" result="shadowColor1" />
+					<feComposite in="shadowColor1" in2="offsetBlur1" operator="in" result="shadow1" />
+
+					<feGaussianBlur in="SourceAlpha" stdDeviation="0" result="blur2" />
+					<feOffset dx="4" dy="4" in="blur3" result="offsetBlur3" />
+					<feFlood flood-color="rgb(122, 86, 58)" result="shadowColor3" />
+					<feComposite in="shadowColor3" in2="offsetBlur3" operator="in" result="shadow3" />
+
+					<feGaussianBlur in="SourceAlpha" stdDeviation="0" result="blur3" />
+					<feOffset dx="2" dy="2" in="blur2" result="offsetBlur2" />
+					<feFlood flood-color="rgb(171, 135, 107)" result="shadowColor2" />
+					<feComposite in="shadowColor2" in2="offsetBlur2" operator="in" result="shadow2" />
+
+					<feMerge>
+						<feMergeNode in="shadow1" />
+						<feMergeNode in="shadow3" />
+						<feMergeNode in="shadow2" />
+						<feMergeNode in="processedImage" />
+					</feMerge>
+				</filter>
+			</defs>
+		</svg>
+		<svg style="width: 0; height: 0">
+			<defs>
+				<filter id="cardboardNoShadow" x="-50%" y="-50%" width="200%" height="200%">
+					<feColorMatrix
+						type="matrix"
+						values="
+							1.25  0 0 0 0
+							0     0.788 0 0 0
+							0     0 0.627 0 0
+							0     0 0     1 0
+						"
+						result="coloredImage"
+					></feColorMatrix>
+
+					<feComponentTransfer in="coloredImage" result="brightenedImage">
+						<feFuncR type="linear" slope="0.9"></feFuncR>
+						<feFuncG type="linear" slope="0.9"></feFuncG>
+						<feFuncB type="linear" slope="0.9"></feFuncB>
+						<!-- Keep alpha unchanged -->
+						<feFuncA type="identity"></feFuncA>
+					</feComponentTransfer>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+           					0.9801 0.0199 0.0000 0 0
+           					0.0000 0.9801 0.0199 0 0
+           					0.0000 0.0000 0.9801 0 0
+           					0      0      0      1 0
+        				"
+						in="brightenedImage"
+						result="sepiaEffect"
+					></feColorMatrix>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+               				0.393  0.769  0.189  0  0
+               				0.349  0.686  0.168  0  0
+               				0.272  0.534  0.131  0  0
+               				0      0      0      1  0
+           				"
+						in="SourceGraphic"
+						result="fullSepia"
+					/>
+					<feBlend in="brightenedImage" in2="fullSepia" mode="normal" result="sepiaBlended" style="mix-blend-mode: lighten"></feBlend>
+
+					<feColorMatrix
+						type="matrix"
+						values="
+            				1.25  0 0 0 0
+            				0     0.788 0 0 0
+            				0     0 0.627 0 0
+            				0     0 0     1 0
+        				"
+						in="SourceGraphic"
+						result="coloredImage"
+					></feColorMatrix>
+					<feComponentTransfer in="coloredImage" result="processedImage">
+						<feFuncR type="linear" slope="0.9"></feFuncR>
+						<feFuncG type="linear" slope="0.9"></feFuncG>
+						<feFuncB type="linear" slope="0.9"></feFuncB>
+						<feFuncA type="identity"></feFuncA>
+					</feComponentTransfer>
+				</filter>
+			</defs>
+		</svg>
+		<!-- cloudflare turnstile -->
+		<script async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+		<!-- storage utility -->
+		<script src="js/StorageUtil.js"></script>
+		<!-- cfunction -->
+		<script src="js/Cfunction.js"></script>
+		<script src="js/Welcome.js"></script>
+		<script src="js/Menus.js"></script>
+		<script src="js/Custom.js"></script>
+		<script src="js/Cheatcodes.js"></script>
+		<script src="js/CPlants.js" type="module"></script>
+		<script src="js/CZombie.js"></script>
+		<script src="js/IZombie.js"></script>
+		
+	
+
+
+    <!-- Clean Authentic Game Startup (No Watermarks/No Anti-Tamper) -->
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            if (typeof InitGame === "function") {
+                InitGame();
+            }
+        });
+        // Safety fallback in case DOMContentLoaded already fired
+        setTimeout(() => {
+            if (typeof InitGame === "function" && (!$("dTitle") || $("dTitle").style.display === "none")) {
+                InitGame();
+            }
+        }, 300);
+    </script>
+</body>
+
+</html>

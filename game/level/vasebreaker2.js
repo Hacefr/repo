@@ -1,0 +1,96 @@
+// VaseKiller2
+oS.Init(
+	{
+		PName: [oCherryBomb, oSeedRepeater2, oSeedSnowPea, oSeedWallNut, oSeedPotatoMine],
+		ZName: [oZombie, oZombie2, oZombie3, oBucketheadZombie, oJackinTheBoxZombie],
+		PicArr: ["images/interface/background2.jpg", "images/interface/trophy.png", "images/interface/PointerDown.gif", "images/interface/Stripe.png"],
+		backgroundImage: "images/interface/background2.jpg",
+		DKind: 0,
+		ShowScroll: false,
+		ProduceSun: false,
+		LevelName: "To the Left",
+		LvlEName: "vasebreaker2",
+		CanSelectCard: 0,
+		StartGameMusic: "Cerebrawl",
+		SunNum: 0,
+		RiddleAutoGrow() {
+			var P = oS.VaseArP;
+			var L = P.Left;
+			var R = P.Right;
+			var GNum = P.GreenNum;
+			var VaseList = [];
+			var GroundList = [];
+
+			// 生成罐子列表
+			for (var O in P.ZombieP) {
+				VaseList.push({
+					Type: "Zombie",
+					Value: oS.ZName[P.ZombieP[O]],
+				});
+			}
+			for (var O in P.PlantP) {
+				VaseList.push({ Type: "Plants", Value: oS.PName[P.PlantP[O]] });
+			}
+			for (var O in P.SunP) {
+				VaseList.push({ Type: "SunNum", Value: P.SunP[O] });
+			}
+
+			// 生成格子列表
+			for (; L <= R; ++L) {
+				for (var Q = 1; Q <= oS.R; ++Q) {
+					GroundList.push([Q, L]);
+				}
+			}
+
+			// 打乱两者
+			VaseList.sort(() => {
+				return Math.random() - 0.5;
+			});
+			GroundList.sort(() => {
+				return Math.random() - 0.5;
+			});
+
+			// 生成罐子
+			while (VaseList.length && GroundList.length) {
+				var Top = VaseList.at(-1);
+				var Pos = GroundList.at(-1);
+
+				oFlowerVase.prototype.SpecialBirth(Pos[0], Pos[1], Top.Type === "Plants" ? GNum-- > 0 : 0, Top); // 生成罐子
+
+				(--VaseList.length, --GroundList.length);
+			}
+		},
+		StartGame() {
+			(oP.Monitor(), SetVisible($("tdShovel"), $("dFlagMeter"), $("dTop")));
+			(StopMusic(), PlayMusic((oS.LoadMusic = oS.StartGameMusic)));
+			for (var i in ArCard) {
+				DoCoolTimer(i, 0);
+			}
+			var f = function () {
+				// 检测这一部分是否结束
+				if (oFlowerVase.prototype.GetLevelStatus()) {
+					oP.FlagToEnd();
+				} else {
+					oSym.addTask(100, f, []);
+				}
+			};
+
+			(oS.RiddleAutoGrow(), f()); // f 的调用一定要在生成罐子后面
+		},
+		VaseArP: {
+			GreenNum: 2,
+			Left: 4,
+			Right: 8,
+			ZombieP: [0, 0, 1, 1, 2, 2, 3, 3, 3, 4],
+			PlantP: [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4],
+			SunP: [],
+		},
+	},
+	0,
+	{
+		AutoSelectCard() {
+			// 只选择樱桃炸弹
+			SelectCard(oCherryBomb.prototype.EName);
+		},
+	}
+);

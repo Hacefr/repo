@@ -1,0 +1,34 @@
+{
+	"name": "pvz",
+	"version": "1.0.0",
+	"description": "An improved version of the original Plants vs. Zombies web game by LonelyStar and JiangNan Game development company.",
+	"keywords": [],
+	"license": "PolyForm-Noncommercial-1.0.0",
+	"author": "",
+	"scripts": {
+		"lint": "oxlint",
+		"fix": "oxlint --fix",
+		"build": "bash scripts/build.sh",
+		"start": "node server.js"
+	},
+	"devDependencies": {
+		"html-minifier-terser": "^7.2.0",
+		"oxfmt": "^0.24.0",
+		"terser": "^5.31.6",
+		"wrangler": "^4.54.0"
+	},
+	"packageManager": "pnpm@10.10.0",
+	"dependencies": {
+		"ws": "^8.22.0"
+	},
+	"main": "background.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Hacefr/repo.git"
+	},
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/Hacefr/repo/issues"
+	},
+	"homepage": "https://github.com/Hacefr/repo#readme"
+}
